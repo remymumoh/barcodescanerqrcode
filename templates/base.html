@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet"/>
+    <link href='https://fonts.googleapis.com/css?family=Oleo+Script' rel='stylesheet' type='text/css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Detect Barcodes</title>
+    <style type="text/css">
+        .navbar-brand {
+            font-size: xx-large;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container img {
+            width: 100%;
+        }
+
+        .thin-black-border {
+            border-color: black;
+            border-width: 05px;
+            border-style: solid;
+        }
+
+        .header {
+            font: 200 80px 'Oleo Script', Helvetica, sans-serif;
+            color: #2b2b2b;
+            text-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-wrap {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .main-wrap > div {
+            flex: 1;
+        }
+    </style>
+   <script>
+    var append_increment = 0;
+    setInterval(function() {
+        $.ajax({
+            type: "GET",
+            url: {% url 'detect_barcodes' %},  // URL to your view that serves new info
+            data: {'append_increment': append_increment},
+            success: function(result){
+        console.log(result)},
+        })
+        .done(function(response) {
+            $('#myForm').append(response);
+            append_increment += 10;
+        });
+    }, 10000)
+</script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid container-md">
+        <a class="navbar-brand" href="{% url 'detect_barcodes' %}">Bar code reader</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="{% url 'detect_barcodes' %}">Update Dispatched</a>
+                <a class="nav-link active" aria-current="page" href="{% url 'generate_barcodes' %}">Update</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"></script>
+
+    {% block content %}
+    {% endblock content %}
+</div>
+</body>
+
+</html>

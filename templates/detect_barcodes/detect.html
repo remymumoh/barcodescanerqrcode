@@ -1,0 +1,43 @@
+{% extends '../base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        {#    <h2>Detect Barcodes</h2>#}
+
+        <hr/>
+
+    </div>
+    <div style="width:100%; height: 100px" class="bg-faded">
+        <!-- Main Div -->
+        <h3>Camera stream status: connected</h3>
+    </div>
+    <div class="main-wrap">
+        <div class="container">
+            {% if cam_status %}
+                <img src="{% url 'camera_feed' %}" style="width: 640px; height: 480px;"/>
+            {% else %}
+                <h3>Camera stream status: Camera is either not accessible or busy</h3>
+                <h5>Things to check:</h5>
+                <ul class="text-right list-inline">
+                    <li>USB connection?</li>
+                    <li>Camera number in your .env file?</li>
+                    <li>Camera is already in use?</li>
+                </ul>
+            {% endif %}
+        </div>
+        <div class="container" id="myForm">
+            <form action="/cgi-bin/hello_get.cgi" method="get">
+                Fill the Detail:
+                <br/>
+
+                <textarea rows="5" cols="50" name="description">{{ bar_codes }}
+         </textarea>
+
+                <input type="submit" value="submit"/>
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}
